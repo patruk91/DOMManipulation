@@ -6,6 +6,17 @@ function addRow() {
         labelRow.innerHTML = "Item 2:";
         getForm.appendChild(labelRow);
     }
+    function addInput() {
+        const getForm = document.querySelector("form");
+        const inputRow = document.createElement("input");
+        inputRow.setAttribute("type", "text");
+        inputRow.setAttribute("name", "item_2");
+        inputRow.setAttribute("id", "item_2");
+        getForm.appendChild(inputRow);
+    }
+    addLabel();
+    addInput();
+
 }
 
 function main() {
