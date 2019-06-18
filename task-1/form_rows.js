@@ -1,18 +1,13 @@
 function addSingleRow() {
     let numberOfItems = document.querySelectorAll("label").length + 1;
-
-    const singleRow = document.createElement("div");
-    singleRow.className = `row`;
-    singleRow.id = `id_${numberOfItems}`;
-
-    function getLabel() {
+    function createLabel() {
         const labelRow = document.createElement("label");
         labelRow.setAttribute("for", `item_${numberOfItems}`);
         labelRow.innerHTML = `Item ${numberOfItems}:`;
         return labelRow;
     }
 
-    function getInput() {
+    function createInput() {
         const inputRow = document.createElement("input");
         inputRow.setAttribute("type", "text");
         inputRow.setAttribute("name", `item_${numberOfItems}`);
@@ -20,17 +15,24 @@ function addSingleRow() {
         return inputRow;
     }
 
-    function getRemoveButton() {
+    function createRemoveButton() {
         const removeButton = document.createElement("button");
         removeButton.setAttribute("class", `remove-row`);
         removeButton.setAttribute("id", `remove_${numberOfItems}`);
         removeButton.innerHTML = "Remove";
         return removeButton;
     }
-    singleRow.appendChild(getLabel());
-    singleRow.appendChild(getInput());
-    singleRow.appendChild(getRemoveButton());
 
+    function createSingleRow() {
+        const singleRow = document.createElement("div");
+        singleRow.className = `row`;
+        singleRow.id = `id_${numberOfItems}`;
+        singleRow.appendChild(createLabel());
+        singleRow.appendChild(createInput());
+        singleRow.appendChild(createRemoveButton());
+        return singleRow;
+    }
+    const singleRow = createSingleRow();
     const getForm = document.querySelector("form");
     getForm.appendChild(singleRow);
 }
