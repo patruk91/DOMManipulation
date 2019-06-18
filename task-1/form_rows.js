@@ -1,5 +1,6 @@
 function addSingleRow() {
-    let numberOfItems = document.querySelectorAll("label").length + 1;
+    const extraArrayLength = 1;
+    let numberOfItems = document.querySelectorAll("label").length + extraArrayLength;
     function createLabel() {
         const labelRow = document.createElement("label");
         labelRow.setAttribute("for", `item_${numberOfItems}`);
@@ -32,9 +33,15 @@ function addSingleRow() {
         singleRow.appendChild(createRemoveButton());
         return singleRow;
     }
-    const singleRow = createSingleRow();
-    const getForm = document.querySelector("form");
-    getForm.appendChild(singleRow);
+    if (numberOfItems <= 10) {
+
+        const singleRow = createSingleRow();
+        const getForm = document.querySelector("form");
+        getForm.appendChild(singleRow);
+
+    } else {
+        alert("Max 10 rows!")
+    }
 }
 
 function removeRow() {
