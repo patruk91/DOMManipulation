@@ -38,13 +38,11 @@ function addSingleRow() {
 }
 
 function removeRow() {
-    console.log(this.id);
     let item = document.getElementById(this.id);
-    console.log(item);
     item.parentNode.removeChild(item);
 }
 
-function remove() {
+function removeData() {
     let removeButtons = document.querySelectorAll(".row");
     console.log(removeButtons);
     for (let removeButton of removeButtons) {
@@ -56,8 +54,8 @@ function main() {
     let rowButton = document.querySelector("#add_row");
     rowButton.addEventListener("click", addSingleRow);
 
-    let onChange = document.querySelector("#add_row");
-    onChange.addEventListener("click", remove)
+    let onChangeAddRow = document.querySelector("#add_row");
+    onChangeAddRow.addEventListener("click", removeData)
 
 
 
