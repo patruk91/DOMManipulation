@@ -1,25 +1,24 @@
+let counter = 1;
 function addSingleRow() {
-    const extraArrayLength = 1;
-    let numberOfItems = document.querySelectorAll("label").length + extraArrayLength;
     function createLabel() {
         const labelRow = document.createElement("label");
-        labelRow.setAttribute("for", `item_${numberOfItems}`);
-        labelRow.innerHTML = `Item ${numberOfItems}:`;
+        labelRow.setAttribute("for", `item_${counter}`);
+        labelRow.innerHTML = `Item ${counter}:`;
         return labelRow;
     }
 
     function createInput() {
         const inputRow = document.createElement("input");
         inputRow.setAttribute("type", "text");
-        inputRow.setAttribute("name", `item_${numberOfItems}`);
-        inputRow.setAttribute("id", `item_${numberOfItems}`);
+        inputRow.setAttribute("name", `item_${counter}`);
+        inputRow.setAttribute("id", `item_${counter}`);
         return inputRow;
     }
 
     function createRemoveButton() {
         const removeButton = document.createElement("button");
         removeButton.setAttribute("class", `remove-row`);
-        removeButton.setAttribute("id", `remove_${numberOfItems}`);
+        removeButton.setAttribute("id", `remove_${counter}`);
         removeButton.innerHTML = "Remove";
         return removeButton;
     }
@@ -27,14 +26,16 @@ function addSingleRow() {
     function createSingleRow() {
         const singleRow = document.createElement("div");
         singleRow.className = `row`;
-        singleRow.id = `id_${numberOfItems}`;
+        singleRow.id = `id_${counter}`;
         singleRow.appendChild(createLabel());
         singleRow.appendChild(createInput());
         singleRow.appendChild(createRemoveButton());
         return singleRow;
     }
-    if (numberOfItems <= 10) {
-
+    counter++;
+    let elements = document.querySelectorAll(".row").length + 1;
+    console.log(elements);
+    if (elements < 10) {
         const singleRow = createSingleRow();
         const getForm = document.querySelector("form");
         getForm.appendChild(singleRow);
@@ -51,23 +52,19 @@ function removeRow() {
 
 function removeData() {
     let removeButtons = document.querySelectorAll(".row");
-    console.log(removeButtons);
     for (let removeButton of removeButtons) {
         removeButton.addEventListener("click", removeRow);
     }
 }
+
 
 function main() {
     let rowButton = document.querySelector("#add_row");
     rowButton.addEventListener("click", addSingleRow);
 
     let onChangeAddRow = document.querySelector("#add_row");
-    onChangeAddRow.addEventListener("click", removeData)
-
-
-
-
-
+    onChangeAddRow.addEventListener("click", removeData);
+    
 }
 
 main();
