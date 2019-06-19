@@ -17,3 +17,7 @@
 .active {
   background-color: #e67e22;
 }
+
+p {
+  display: inline;
+}
