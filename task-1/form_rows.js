@@ -1,5 +1,5 @@
-let counter = 1;
-function addSingleRow() {
+function addSingleRow(event) {
+    let counter = event.target.counterData.getCounter();
     function createLabel() {
         const labelRow = document.createElement("label");
         labelRow.setAttribute("for", `item_${counter}`);
@@ -32,9 +32,7 @@ function addSingleRow() {
         singleRow.appendChild(createRemoveButton());
         return singleRow;
     }
-    counter++;
     let elements = document.querySelectorAll(".row").length + 1;
-    console.log(elements);
     if (elements < 10) {
         const singleRow = createSingleRow();
         const getForm = document.querySelector("form");
@@ -57,16 +55,44 @@ function removeData() {
     }
 }
 
+function countValue() {
+    return {
+        counter: 1,
+        increment: function () {
+            console.log(document.querySelectorAll(".row").length);
+            if (document.querySelectorAll(".row").length < 9) {
+                this.counter++;
+            }
+        },
+        getCounter: function () {
+            return this.counter;
+        }
+    };
+}
 
 function main() {
-    let rowButton = document.querySelector("#add_row");
-    rowButton.addEventListener("click", addSingleRow);
+    function counterForItems() {
+        const counterValue = countValue();
+        let incrementCounter = document.querySelector("#add_row");
+        incrementCounter.addEventListener("click", () => counterValue.increment(), false);
+        return counterValue;
+    }
 
-    let onChangeAddRow = document.querySelector("#add_row");
-    onChangeAddRow.addEventListener("click", removeData);
-    
+    function addRow() {
+        let rowButton = document.querySelector("#add_row");
+        rowButton.addEventListener("click", addSingleRow, false);
+        rowButton.counterData = counterValue;
+    }
+
+    function removeRow() {
+        let onChangeAddRow = document.querySelector("#add_row");
+        onChangeAddRow.addEventListener("click", removeData);
+    }
+
+    const counterValue = counterForItems();
+    addRow();
+    removeRow();
 }
 
 main();
-// <label for="item_1">Item 1:</label><input type="text" name="item_1" id="item_1"/>
-// document.querySelector("form").insertAdjacentHTML("beforeend", '<br>');
+
