@@ -10,8 +10,18 @@ function createSingleRow() {
     return singleRow;
 }
 
+function createGrid() {
+    const container = document.querySelector(".container");
+    for (let i = 0; i < 10; i++) {
+        const singleRow = createSingleRow();
+        container.appendChild(singleRow);
+    }
+}
+
+
 
 function main() {
+    createGrid();
 
 }
 
