@@ -39,11 +39,13 @@ function addSingleRow(event) {
         getForm.appendChild(singleRow);
 
     } else {
-        alert("Max 10 rows!")
+        document.getElementById("error").innerHTML = "Max 10 rows!".fontcolor("red");
+
     }
 }
 
 function removeRow() {
+    document.getElementById("error").innerHTML = "";
     let item = document.getElementById(this.id);
     item.parentNode.removeChild(item);
 }
