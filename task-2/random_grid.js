@@ -18,10 +18,32 @@ function createGrid() {
     }
 }
 
+function getRandomNumbers(cellElements) {
+    let totalCells = cellElements.length;
+    return Math.floor(Math.random() * totalCells);
+}
 
+function changeStyleForOneCell() {
+    let cellElements = document.querySelectorAll(".cell");
+    let randomNumber = getRandomNumbers(cellElements);
+    cellElements[randomNumber].className += " active";
+
+    setInterval(function () {
+        revertStyleForOneCell(randomNumber, cellElements);
+    }, 500);
+}
+
+function revertStyleForOneCell(randomNumber, cellElements) {
+    cellElements[randomNumber].className = "cell";
+}
 
 function main() {
     createGrid();
+
+    setInterval(function () {
+        changeStyleForOneCell();
+    }, 500);
+
 
 }
 
