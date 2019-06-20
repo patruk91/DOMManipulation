@@ -8,24 +8,7 @@ const moves = {
     '100': "ArrowRight"
 };
 
-function createGrid() {
-    function createSingleRow() {
-        const singleRow = document.createElement("p");
-        singleRow.classList.add("row");
-        for (let i = 0; i < 10; i++) {
-            const singleGrid = document.createElement("div");
-            singleGrid.classList.add("cell");
-            singleRow.appendChild(singleGrid);
-        }
-        return singleRow;
-    }
 
-    const container = document.querySelector(".container");
-    for (let i = 0; i < 10; i++) {
-        const singleRow = createSingleRow();
-        container.appendChild(singleRow);
-    }
-}
 
 function activeOrDeactivateCell(event) {
     function activeOrDeactivateCellOnClick() {
@@ -76,47 +59,70 @@ function activeOrDeactivateCell(event) {
 }
 
 function moveActiveSquare(event) {
-    let markedCell = document.getElementsByClassName("cell active")[0];
-    // console.log(event.key === "ArrowRight");
+    function updateCellStatus(moveHorizontally) {
+        markedCell.className = "cell";
+        cells[cellIndex + moveHorizontally].className = "cell active";
+    }
 
+    function moveCellByPressArrow() {
+        let moveHorizontally = 1;
+        let moveVertically = 10;
+        switch (event.key) {
+            case "ArrowRight":
+                updateCellStatus(moveHorizontally);
+                break;
+            case "ArrowLeft":
+                updateCellStatus(-moveHorizontally);
+                break;
+            case "ArrowUp":
+                updateCellStatus(-moveVertically);
+
+                break;
+            case "ArrowDown":
+                updateCellStatus(moveVertically);
+                break;
+        }
+    }
+
+    let markedCell = document.getElementsByClassName("cell active")[0];
     let cells = document.querySelectorAll(".cell");
     let arrayOfCells = Array.from(cells);
     let cellIndex = arrayOfCells.indexOf(markedCell);
 
     if (markedCell !== undefined && markedCell.className === "cell active") {
-        let moveHorizontally = 1;
-        let moveVertically = 10;
-        switch (event.key) {
-            case "ArrowRight":
-                markedCell.className = "cell";
-                cells[cellIndex + moveHorizontally].className = "cell active";
-                break;
-            case "ArrowLeft":
-                markedCell.className = "cell";
-                cells[cellIndex - moveHorizontally].className = "cell active";
-                break;
-            case "ArrowUp":
-                markedCell.className = "cell";
-                cells[cellIndex - moveVertically].className = "cell active";
-                break;
-            case "ArrowDown":
-                markedCell.className = "cell";
-                cells[cellIndex + moveVertically].className = "cell active";
-                break;
+        moveCellByPressArrow();
+    }
+}
+
+function createGrid() {
+    function createSingleRow() {
+        const singleRow = document.createElement("p");
+        singleRow.classList.add("row");
+        for (let i = 0; i < 10; i++) {
+            const singleGrid = document.createElement("div");
+            singleGrid.classList.add("cell");
+            singleRow.appendChild(singleGrid);
         }
+        return singleRow;
     }
 
+    const container = document.querySelector(".container");
+    for (let i = 0; i < 10; i++) {
+        const singleRow = createSingleRow();
+        container.appendChild(singleRow);
+    }
+}
 
+function changeCellStatus() {
+    let grid = document.querySelectorAll(".cell");
+    for (let cell of grid) {
+        cell.addEventListener("click", activeOrDeactivateCell);
+    }
 }
 
 function main() {
     createGrid();
-    let grid = document.querySelectorAll(".cell");
-
-    for(let cell of grid) {
-        cell.addEventListener("click", activeOrDeactivateCell);
-    }
-
+    changeCellStatus();
 
 
 }
