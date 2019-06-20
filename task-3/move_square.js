@@ -45,8 +45,19 @@ function changeColorOnClick(event) {
 
     let grid = document.querySelectorAll(".cell");
     let gridArray = Array.from(grid);
+    unmarkPreviousActiveCells();
     markCellAsActiveOrDeactivate();
 
+
+    function unmarkPreviousActiveCells() {
+        for (let cell of grid) {
+            if (cell.id === "marked") {
+                cell.className = "cell";
+                cell.removeAttribute("id");
+                return;
+            }
+        }
+    }
 
 
 
