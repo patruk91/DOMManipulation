@@ -72,7 +72,7 @@ function moveActiveSquare(event) {
     let arrayOfCells = Array.from(cells);
     let cellIndex = arrayOfCells.indexOf(markedCell);
 
-    if (markedCell.className === "cell active") {
+    if (markedCell !== undefined && markedCell.className === "cell active") {
         let moveHorizontally = 1;
         let moveVertically = 10;
         switch (event.key) {
