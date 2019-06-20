@@ -27,45 +27,52 @@ function createGrid() {
     }
 }
 
-function changeColorOnClick(event) {
-    function markCellAsActiveOrDeactivate() {
+function activeOrDeactivateCell(event) {
+    function activeOrDeactivateCellOnClick() {
+        function unmarkPreviousActiveCells() {
+            let activeCell = gridArray.find(markedCell => markedCell.id === "marked");
+            if (activeCell !== undefined && activeCell.id === "marked") {
+                activeCell.className = "cell";
+                activeCell.removeAttribute("id");
+            }
+        }
+
         function getCellClassName() {
             let currentCellIndex = gridArray.indexOf(event.currentTarget);
             return grid[currentCellIndex].className;
         }
 
-        let cellActiveName = getCellClassName();
-        if(cellActiveName === "cell active") {
-            event.currentTarget.className = "cell";
-        } else if (cellActiveName === "cell") {
-            event.currentTarget.className = "cell active";
-            event.currentTarget.id = "marked";
-        }
-    }
-
-    let grid = document.querySelectorAll(".cell");
-    let gridArray = Array.from(grid);
-    unmarkPreviousActiveCells();
-    markCellAsActiveOrDeactivate();
-
-
-    function unmarkPreviousActiveCells() {
-        for (let cell of grid) {
-            if (cell.id === "marked") {
-                cell.className = "cell";
-                cell.removeAttribute("id");
-                return;
+        function activateCellOnClick() {
+            let cellActiveName = getCellClassName();
+            if (cellActiveName === "cell") {
+                event.currentTarget.className = "cell active";
+                event.currentTarget.id = "marked";
             }
         }
+
+        function deactivateCellOnClick() {
+            if (cellActiveName === "cell active") {
+                this.className = "cell"
+            }
+        }
+
+        let grid = document.querySelectorAll(".cell");
+        let gridArray = Array.from(grid);
+        let cellActiveName = getCellClassName();
+
+        unmarkPreviousActiveCells(event.currentTarget);
+        activateCellOnClick();
+        deactivateCellOnClick.call(this);
     }
 
+    function activeOrDeactivateCellOnPressKeyArrow() {
+        document.addEventListener("keydown", moveActiveSquare);
+        let evt = new KeyboardEvent('keydown');
+        document.dispatchEvent(evt);
+    }
 
-
-
-
-    document.addEventListener("keydown", moveActiveSquare);
-    let evt = new KeyboardEvent('keydown');
-    document.dispatchEvent (evt);
+    activeOrDeactivateCellOnClick.call(this);
+    activeOrDeactivateCellOnPressKeyArrow();
 }
 
 function moveActiveSquare(event) {
@@ -107,7 +114,7 @@ function main() {
     let grid = document.querySelectorAll(".cell");
 
     for(let cell of grid) {
-        cell.addEventListener("click", changeColorOnClick);
+        cell.addEventListener("click", activeOrDeactivateCell);
     }
 
 
