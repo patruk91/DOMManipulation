@@ -60,6 +60,10 @@ function activeOrDeactivateCell(event) {
 
 function moveActiveSquare(event) {
     function updateCellStatus(moveHorizontally) {
+        let cells = document.querySelectorAll(".cell");
+        let arrayOfCells = Array.from(cells);
+        let cellIndex = arrayOfCells.indexOf(markedCell);
+
         markedCell.className = "cell";
         cells[cellIndex + moveHorizontally].className = "cell active";
     }
@@ -76,7 +80,6 @@ function moveActiveSquare(event) {
                 break;
             case "ArrowUp":
                 updateCellStatus(-moveVertically);
-
                 break;
             case "ArrowDown":
                 updateCellStatus(moveVertically);
@@ -85,10 +88,6 @@ function moveActiveSquare(event) {
     }
 
     let markedCell = document.getElementsByClassName("cell active")[0];
-    let cells = document.querySelectorAll(".cell");
-    let arrayOfCells = Array.from(cells);
-    let cellIndex = arrayOfCells.indexOf(markedCell);
-
     if (markedCell !== undefined && markedCell.className === "cell active") {
         moveCellByPressArrow();
     }
