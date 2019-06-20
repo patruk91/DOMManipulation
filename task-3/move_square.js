@@ -28,36 +28,29 @@ function createGrid() {
 }
 
 function changeColorOnClick(event) {
+    function markCellAsActiveOrDeactivate() {
+        function getCellClassName() {
+            let currentCellIndex = gridArray.indexOf(event.currentTarget);
+            return grid[currentCellIndex].className;
+        }
 
-    function getCellActiveName() {
-        let arrayOfCells = Array.from(cells);
-        let cellIndex = arrayOfCells.indexOf(event.currentTarget);
-        return cells[cellIndex].className;
-    }
-
-    function markEachCell() {
-        for (let cell of cells) {
-            cell.className = "cell";
+        let cellActiveName = getCellClassName();
+        if(cellActiveName === "cell active") {
+            event.currentTarget.className = "cell";
+        } else if (cellActiveName === "cell") {
+            event.currentTarget.className = "cell active";
+            event.currentTarget.id = "marked";
         }
     }
 
-    function markCellAsActive() {
-        if (this.className === "cell") {
-            this.className = "cell active"
-        }
-    }
+    let grid = document.querySelectorAll(".cell");
+    let gridArray = Array.from(grid);
+    markCellAsActiveOrDeactivate();
 
-    function deactivateActiveCellWhenClickAgain() {
-        if (cellActiveName === "cell active") {
-            this.className = "cell"
-        }
-    }
 
-    let cells = document.querySelectorAll(".cell");
-    let cellActiveName = getCellActiveName();
-    markEachCell();
-    markCellAsActive.call(this);
-    deactivateActiveCellWhenClickAgain.call(this);
+
+
+
 
     document.addEventListener("keydown", moveActiveSquare);
     let evt = new KeyboardEvent('keydown');
@@ -66,7 +59,7 @@ function changeColorOnClick(event) {
 
 function moveActiveSquare(event) {
     let markedCell = document.getElementsByClassName("cell active")[0];
-    console.log(event.key === "ArrowRight");
+    // console.log(event.key === "ArrowRight");
 
     let cells = document.querySelectorAll(".cell");
     let arrayOfCells = Array.from(cells);
@@ -100,9 +93,9 @@ function moveActiveSquare(event) {
 
 function main() {
     createGrid();
-    let cells = document.querySelectorAll(".cell");
+    let grid = document.querySelectorAll(".cell");
 
-    for(let cell of cells) {
+    for(let cell of grid) {
         cell.addEventListener("click", changeColorOnClick);
     }
 
