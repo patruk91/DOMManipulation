@@ -59,35 +59,94 @@ function activeOrDeactivateCell(event) {
 }
 
 function moveActiveSquare(event) {
-    function updateCellStatus(moveHorizontally) {
-        let cells = document.querySelectorAll(".cell");
-        let arrayOfCells = Array.from(cells);
-        let cellIndex = arrayOfCells.indexOf(markedCell);
-
+    function updateCellStatus(move) {
         markedCell.className = "cell";
-        cells[cellIndex + moveHorizontally].className = "cell active";
+        cells[cellIndex + move].className = "cell active";
     }
 
     function moveCellByPressArrow() {
+        function moveRight() {
+            if (checkIfCanMoveBottomRight()) {
+                let firstCell = 0;
+                markedCell.className = "cell";
+                cells[firstCell].className = "cell active";
+            } else {
+                updateCellStatus(moveHorizontally);
+            }
+        }
+
+        function moveLeft() {
+            if (checkIfCanMoveTopLeft()) {
+                let lastCell = 99;
+                markedCell.className = "cell";
+                cells[lastCell].className = "cell active";
+            } else {
+                updateCellStatus(-moveHorizontally);
+            }
+        }
+
+        function moveUp() {
+            if (checkIfCanMoveTop()) {
+                updateCellStatus(fullWidth)
+            } else {
+                updateCellStatus(-moveVertically);
+            }
+        }
+
+        function moveDown() {
+            if (checkIfCanMoveBottom()) {
+                updateCellStatus(-fullWidth);
+            } else {
+                updateCellStatus(moveVertically);
+            }
+        }
+
+        function checkIfCanMoveTop() {
+            let topRowCells = [0, 1, 2, 3, 4, 5, 6, 7, 8 ,9];
+            return topRowCells.includes(cellIndex);
+        }
+
+        function checkIfCanMoveBottom() {
+            let bottomRowCells = [90, 91, 92, 93, 94, 95, 96, 97, 98 ,99];
+            return bottomRowCells.includes(cellIndex);
+        }
+
+        function checkIfCanMoveBottomRight() {
+            let lastCell = [99];
+            return lastCell.includes(cellIndex);
+        }
+
+        function checkIfCanMoveTopLeft() {
+            let firstCell = [0];
+            return firstCell.includes(cellIndex);
+        }
+
         let moveHorizontally = 1;
         let moveVertically = 10;
+        let fullWidth = 90;
+
         switch (event.key) {
             case "ArrowRight":
-                updateCellStatus(moveHorizontally);
+                moveRight();
                 break;
             case "ArrowLeft":
-                updateCellStatus(-moveHorizontally);
+                moveLeft();
                 break;
             case "ArrowUp":
-                updateCellStatus(-moveVertically);
+                moveUp();
                 break;
             case "ArrowDown":
-                updateCellStatus(moveVertically);
+                moveDown();
                 break;
         }
     }
 
     let markedCell = document.getElementsByClassName("cell active")[0];
+    let cells = document.querySelectorAll(".cell");
+    let arrayOfCells = Array.from(cells);
+
+    let cellIndex = arrayOfCells.indexOf(markedCell);
+    console.log(cellIndex);
     if (markedCell !== undefined && markedCell.className === "cell active") {
         moveCellByPressArrow();
     }
