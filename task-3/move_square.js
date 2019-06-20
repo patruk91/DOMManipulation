@@ -2,10 +2,10 @@
 // write your moveX functions and after that
 // you can call these like moves[keycode]();
 const moves = {
-    '97': "moveLeft",
-    '115': "moveDown",
-    '119': "moveUp",
-    '100': "moveRight"
+    '97': "ArrowLeft",
+    '115': "ArrowDown",
+    '119': "ArrowUp",
+    '100': "ArrowRight"
 };
 
 function createGrid() {
@@ -59,6 +59,43 @@ function changeColorOnClick(event) {
     markCellAsActive.call(this);
     deactivateActiveCellWhenClickAgain.call(this);
 
+    document.addEventListener("keydown", moveActiveSquare);
+    let evt = new KeyboardEvent('keydown');
+    document.dispatchEvent (evt);
+}
+
+function moveActiveSquare(event) {
+    let markedCell = document.getElementsByClassName("cell active")[0];
+    console.log(event.key === "ArrowRight");
+
+    let cells = document.querySelectorAll(".cell");
+    let arrayOfCells = Array.from(cells);
+    let cellIndex = arrayOfCells.indexOf(markedCell);
+
+    if (markedCell.className === "cell active") {
+        let moveHorizontally = 1;
+        let moveVertically = 10;
+        switch (event.key) {
+            case "ArrowRight":
+                markedCell.className = "cell";
+                cells[cellIndex + moveHorizontally].className = "cell active";
+                break;
+            case "ArrowLeft":
+                markedCell.className = "cell";
+                cells[cellIndex - moveHorizontally].className = "cell active";
+                break;
+            case "ArrowUp":
+                markedCell.className = "cell";
+                cells[cellIndex - moveVertically].className = "cell active";
+                break;
+            case "ArrowDown":
+                markedCell.className = "cell";
+                cells[cellIndex + moveVertically].className = "cell active";
+                break;
+        }
+    }
+
+
 }
 
 function main() {
@@ -68,6 +105,7 @@ function main() {
     for(let cell of cells) {
         cell.addEventListener("click", changeColorOnClick);
     }
+
 
 
 }
